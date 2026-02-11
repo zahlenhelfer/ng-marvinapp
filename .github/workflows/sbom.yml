@@ -27,6 +27,15 @@ jobs:
       - name: Generate CycloneDX SBOM
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.cdx.json --output-format JSON
 
+      - name: Upload SBOM to Dependency-Track
+        run: |
+          curl --fail-with-body -X POST "${{ vars.DEPENDENCY_TRACK_URL }}/api/v1/bom" \
+            -H "X-Api-Key: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}" \
+            -F "autoCreate=true" \
+            -F "projectName=${{ github.event.repository.name }}" \
+            -F "projectVersion=${{ github.event.release.tag_name }}" \
+            -F "bom=@sbom.cdx.json"
+
       - name: Upload SBOM to release
         run: gh release upload "${{ github.event.release.tag_name }}" sbom.cdx.json --clobber
         env:
