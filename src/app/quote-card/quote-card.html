@@ -1,0 +1,21 @@
+<div class="flex flex-col items-center gap-8">
+  @if (currentQuote(); as quote) {
+    <div
+      class="max-w-lg w-full rounded-2xl bg-slate-800 border border-slate-700 shadow-xl p-8 transition-all duration-300"
+    >
+      <p class="text-xl italic text-emerald-300 leading-relaxed">
+        "{{ quote.text }}"
+      </p>
+      <p class="mt-4 text-sm text-slate-400 text-right">
+        — {{ quote.source }}
+      </p>
+    </div>
+  }
+
+  <button
+    (click)="showRandomQuote()"
+    class="rounded-full bg-emerald-600 px-8 py-3 text-lg font-semibold text-white shadow-lg hover:bg-emerald-500 active:scale-95 transition-all duration-150 cursor-pointer"
+  >
+    Don't Panic — Show Me a Quote
+  </button>
+</div>
