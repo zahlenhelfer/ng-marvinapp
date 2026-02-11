@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Generate CycloneDX SBOM
-        run: npx --yes @cyclonedx/cyclonedx-npm --output-file sbom.cdx.json --output-format JSON
+        run: npx cyclonedx-npm --output-file sbom.cdx.json --output-format JSON
 
       - name: Upload SBOM to Dependency-Track
         run: |
