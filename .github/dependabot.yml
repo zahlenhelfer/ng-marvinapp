@@ -6,12 +6,12 @@ updates:
       interval: "weekly"
     allow:
       - dependency-name: "@angular/*"
-        versions: ["20.x"]
+        versions: ["21.x"]
     commit-message:
       prefix: "chore"
     ignore:
       - dependency-name: "@angular/*"
-        versions: [">=21.0.0"]
+        versions: [">=22.0.0"]
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
