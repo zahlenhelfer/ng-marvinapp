@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ng version:*)",
+      "Bash(npm view:*)",
+      "Bash(ng new:*)",
+      "Bash(npx ng add:*)",
+      "Bash(npm install:*)",
+      "Bash(ng generate:*)",
+      "Bash(npx ng build:*)",
+      "Bash(npm start)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: initialize Angular 21 Hitchhiker''s Guide quote app\n\nSet up a standalone Angular 21 application with Tailwind CSS v4 that\ndisplays random quotes from The Hitchhiker''s Guide to the Galaxy.\n\n- Scaffold Angular 21 app with standalone components \\(no NgModules\\)\n- Integrate Tailwind CSS v4 via PostCSS for utility-first styling\n- Build QuoteCard component using Angular Signals \\(signal/computed\\)\n  with 15 curated quotes and no-repeat random selection\n- Dark-themed UI with slate/emerald color palette\n- Add CLAUDE.md with project commands and architecture notes\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.npmjs.com)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nci: add GitHub Actions workflow to generate CycloneDX SBOM on release\n\nAutomatically generates a CycloneDX SBOM \\(sbom.cdx.json\\) from\npackage-lock.json and attaches it to the GitHub release as an asset.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(gh release create:*)",
+      "Skill(commit-commands:commit)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npx cyclonedx-npm:*)",
+      "Bash(git commit:*)",
+      "Bash(gh release list:*)",
+      "Bash(gh run:*)"
+    ]
+  }
+}
