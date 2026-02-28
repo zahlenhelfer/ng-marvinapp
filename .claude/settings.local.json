@@ -22,7 +22,9 @@
       "Bash(npx cyclonedx-npm:*)",
       "Bash(git commit:*)",
       "Bash(gh release list:*)",
-      "Bash(gh run:*)"
+      "Bash(gh run:*)",
+      "Bash(npm audit:*)",
+      "Bash(gh api:*)"
     ]
   }
 }

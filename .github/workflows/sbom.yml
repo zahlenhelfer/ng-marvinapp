@@ -22,10 +22,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --omit=dev
 
       - name: Generate CycloneDX SBOM
-        run: npx @cyclonedx/cdxgen -o sbom.cdx.json --no-dev-deps
+        run: npx @cyclonedx/cdxgen -o sbom.cdx.json --no-dev
 
       - name: Upload SBOM to Dependency-Track
         run: |
