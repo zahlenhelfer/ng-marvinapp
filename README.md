@@ -1,59 +1,81 @@
-# NgMarvinapp
+# ng-marvinapp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+A minimal Angular application that displays random quotes from Douglas Adams' *The Hitchhiker's Guide to the Galaxy* universe — featuring the beloved Marvin the Paranoid Android and friends.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+| Technology | Version |
+|---|---|
+| Angular | 21 |
+| Tailwind CSS | 4 |
+| TypeScript | 5.9 |
+| Vitest | 4 |
 
-```bash
-ng serve
-```
+## Getting Started
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Prerequisites
 
-## Code scaffolding
+- Node.js ≥ 20
+- npm ≥ 11
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Installation
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
+### Development
 
-To build the project run:
+Start the dev server with live reload:
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open [http://localhost:4200](http://localhost:4200) in your browser.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Production Build
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+Output is written to `dist/ng-marvinapp/`.
 
-For end-to-end (e2e) testing, run:
+## Available Scripts
+
+| Command | Description |
+|---|---|
+| `npm start` | Start development server on port 4200 |
+| `npm run build` | Production build |
+| `npm run watch` | Development build in watch mode |
+| `npm test` | Run unit tests via Vitest |
+| `npm run test:coverage` | Run unit tests with coverage report |
+
+## Project Structure
+
+```
+src/
+└── app/
+    ├── app.ts              # Root component
+    ├── app.config.ts       # Application providers (router, error listeners)
+    ├── app.routes.ts       # Route definitions
+    └── quote-card/         # Quote feature component
+        ├── quote-card.ts   # Component logic (Angular signals)
+        ├── quote-card.html # Template
+        └── quote-card.css  # Component styles
+```
+
+## Architecture Notes
+
+- **Standalone components** — no NgModules; each component declares its own `imports`
+- **Angular Signals** — component state uses `signal()` and `computed()` instead of observables
+- **Tailwind CSS v4** via PostCSS for utility-first styling
+- **Prettier** configured in `package.json` (100 char width, single quotes, Angular HTML parser)
+- Component selector prefix: `app-`
+
+## Generating Components
 
 ```bash
-ng e2e
+ng generate component <name>
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
