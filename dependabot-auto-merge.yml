@@ -1,0 +1,61 @@
+# .github/workflows/dependabot-auto-merge.yml
+#
+# Auto-merge für Dependabot-PRs:
+#  - Patches: immer auto-merge (Bugfixes, statistisch sicher)
+#  - Minor:   auto-merge bei Dev-Dependencies, manuell bei Production-Deps
+#  - Major:   NIE auto-merge, immer manuell reviewen
+#
+# Voraussetzung: Repo-Settings müssen "Allow auto-merge" aktiviert haben.
+# Settings → General → Pull Requests → Allow auto-merge
+
+name: Dependabot Auto-Merge
+
+on: pull_request
+
+permissions:
+  contents: write # zum Mergen
+  pull-requests: write # zum Approven / Kommentieren
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    # Nur für Dependabot-PRs auf dieses Repo (nicht für Forks).
+    if: github.actor == 'dependabot[bot]' && github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Get Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Patch-Updates: immer auto-mergen.
+      - name: Enable auto-merge for patch updates
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Minor-Updates nur für Dev-Dependencies auto-mergen.
+      # Production-Minors (z.B. @angular/core) bleiben manuell.
+      - name: Enable auto-merge for minor dev-dependency updates
+        if: |
+          steps.meta.outputs.update-type == 'version-update:semver-minor' &&
+          steps.meta.outputs.dependency-type == 'direct:development'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Major-Updates oder Production-Minors: nur kommentieren, nicht mergen.
+      - name: Comment on major / prod-minor updates
+        if: |
+          steps.meta.outputs.update-type == 'version-update:semver-major' ||
+          (steps.meta.outputs.update-type == 'version-update:semver-minor' &&
+           steps.meta.outputs.dependency-type == 'direct:production')
+        run: |
+          gh pr comment "$PR_URL" --body \
+            "⚠️ Dieser PR wird **nicht** auto-gemerged (Major-Update oder Production-Minor). Bitte Changelog prüfen und manuell mergen."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

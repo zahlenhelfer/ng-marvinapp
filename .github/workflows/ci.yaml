@@ -1,0 +1,53 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+# Wenn neue Commits auf einen offenen PR kommen, laufende Runs canceln –
+# spart Actions-Minuten und gibt schneller Feedback.
+concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+# Read-only Default. Auto-merge-Workflow erweitert das per Job-Scope.
+permissions:
+    contents: read
+
+jobs:
+    build-and-test:
+        name: Build & Test (Node ${{ matrix.node }})
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                # 20 ist Angular 21 LTS-Minimum, 22 ist aktuelles LTS.
+                # Beide testen fängt Node-spezifische Bugs früh ab.
+                node: [20, 22]
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js ${{ matrix.node }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node }}
+                  cache: npm
+
+            - name: Install dependencies
+              # npm ci ist deterministisch und bricht ab, wenn package-lock.json
+              # nicht zu package.json passt – genau was wir bei Dependabot-PRs wollen.
+              run: npm ci
+
+            - name: Build
+              run: npm run build
+
+            - name: Test
+              # Vitest läuft automatisch headless, weil GitHub Actions CI=true setzt.
+              # --watch=false ist bei ng test in CI ohnehin Default, schadet aber nicht
+              # es explizit zu erwarten.
+              run: npm test

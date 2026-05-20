@@ -1,18 +1,98 @@
+# .github/dependabot.yml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/" # or your subdirectory if different
+  # npm-Pakete im Repo-Root
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
-    allow:
-      - dependency-name: "@angular/*"
-        versions: ["21.x"]
-    commit-message:
-      prefix: "chore"
+      interval: weekly
+      day: sunday
+      time: "05:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - automated
+
+    # Hier passiert die Magie: statt 8 einzelne PRs für Dev-Dep-Patches
+    # gibt es einen gebündelten PR pro Gruppe.
+    groups:
+      # Angular gehört IMMER zusammen. Sonst Versionsmismatch zwischen
+      # @angular/core, @angular/compiler, @angular/cli etc.
+      angular:
+        patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "@schematics/*"
+          - "ng-packagr"
+        # Major-Updates rauslassen – die wollen wir bewusst sehen und planen.
+        update-types:
+          - minor
+          - patch
+
+      # Alles rund ums Testen
+      testing:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+          - "jsdom"
+          - "happy-dom"
+        update-types:
+          - minor
+          - patch
+
+      # Build-Toolchain (rollup, postcss, typescript, esbuild …)
+      build-tools:
+        patterns:
+          - "rollup"
+          - "rollup-*"
+          - "@rollup/*"
+          - "esbuild"
+          - "postcss*"
+          - "typescript"
+          - "tslib"
+        update-types:
+          - minor
+          - patch
+
+      # Alles übrige als ein Sammel-PR (transitive Sicherheitsupdates etc.)
+      misc-dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+
+      misc-prod-dependencies:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+
+    # Major-Updates für Angular bewusst ignorieren – manuell migrieren mit ng update.
     ignore:
       - dependency-name: "@angular/*"
-        versions: [">=22.0.0"]
-  - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: "/" # Location of package manifests
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+
+    commit-message:
+      prefix: "build(deps)"
+      prefix-development: "build(deps-dev)"
+      include: scope
+
+  # GitHub Actions selbst (actions/checkout, setup-node etc.) auch updaten
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+    labels:
+      - dependencies
+      - github-actions
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci"
+      include: scope
