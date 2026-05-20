@@ -24,7 +24,12 @@
       "Bash(gh release list:*)",
       "Bash(gh run:*)",
       "Bash(npm audit:*)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(npm ls:*)",
+      "Bash(python3:*)",
+      "Bash(npm:*)",
+      "Skill(commit-commands:commit-push-pr)",
+      "Bash(git checkout:*)"
     ]
   }
 }
