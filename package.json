@@ -34,11 +34,11 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "~21.2.11",
-    "@angular/cli": "~21.2.11",
-    "@angular/compiler-cli": "~21.2.13",
+    "@angular/build": "~21.2.14",
+    "@angular/cli": "~21.2.14",
+    "@angular/compiler-cli": "~21.2.16",
     "@tailwindcss/postcss": "^4.1.18",
-    "@vitest/coverage-istanbul": "^4.1.4",
+    "@vitest/coverage-istanbul": "^4.1.8",
     "@vitest/coverage-v8": "^4.1.4",
     "jsdom": "^29.0.2",
     "postcss": "^8.5.6",
