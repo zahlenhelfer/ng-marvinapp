@@ -1,0 +1,33 @@
+# .github/workflows/dependabot-automerge.yml
+name: Dependabot auto-merge
+
+on: pull_request
+
+# Nur das, was zum Mergen nötig ist – minimaler Token-Scope.
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    auto-merge:
+        name: Auto-merge patch & minor
+        runs-on: ubuntu-latest
+        # Läuft ausschließlich für Dependabot-PRs.
+        if: github.actor == 'dependabot[bot]'
+
+        steps:
+            - name: Dependabot-Metadaten holen
+              id: meta
+              uses: dependabot/fetch-metadata@v2
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Auto-merge aktivieren (nur patch/minor)
+              # Major-Updates bleiben bewusst manuell – die brechen gern was
+              # (z. B. @angular/build 22 verlangt TypeScript 6).
+              # Branch Protection lässt den Merge erst zu, wenn Build & Test grün ist.
+              if: steps.meta.outputs.update-type == 'version-update:semver-patch' || steps.meta.outputs.update-type == 'version-update:semver-minor'
+              run: gh pr merge --auto --squash "$PR_URL"
+              env:
+                  PR_URL: ${{ github.event.pull_request.html_url }}
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
