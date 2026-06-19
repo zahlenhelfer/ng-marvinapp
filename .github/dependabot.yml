@@ -56,15 +56,53 @@ updates:
           - minor
           - patch
 
-      # Alles übrige als ein Sammel-PR (transitive Sicherheitsupdates etc.)
+      # Alles übrige als ein Sammel-PR (transitive Sicherheitsupdates etc.).
+      # exclude-patterns ist nötig, weil die dependency-type-Sammelgruppen sonst
+      # ALLE Pakete ihres Typs greifen – auch die der angular/testing/build-tools-
+      # Gruppen. Dadurch landeten @angular-Prod- und -Dev-Pakete in getrennten PRs,
+      # was wegen des exakten compiler/compiler-cli-Peers nie auflösbar ist.
       misc-dev-dependencies:
         dependency-type: development
+        exclude-patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "@schematics/*"
+          - "ng-packagr"
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+          - "jsdom"
+          - "happy-dom"
+          - "rollup"
+          - "rollup-*"
+          - "@rollup/*"
+          - "esbuild"
+          - "postcss*"
+          - "typescript"
+          - "tslib"
         update-types:
           - minor
           - patch
 
       misc-prod-dependencies:
         dependency-type: production
+        exclude-patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "@schematics/*"
+          - "ng-packagr"
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+          - "jsdom"
+          - "happy-dom"
+          - "rollup"
+          - "rollup-*"
+          - "@rollup/*"
+          - "esbuild"
+          - "postcss*"
+          - "typescript"
+          - "tslib"
         update-types:
           - minor
           - patch
