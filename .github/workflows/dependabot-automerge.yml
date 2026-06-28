@@ -12,8 +12,8 @@ jobs:
     auto-merge:
         name: Auto-merge patch & minor
         runs-on: ubuntu-latest
-        # Läuft ausschließlich für Dependabot-PRs.
-        if: github.actor == 'dependabot[bot]'
+        # Läuft ausschließlich für Dependabot-PRs aus diesem Repo (keine Forks).
+        if: github.actor == 'dependabot[bot]' && github.event.pull_request.head.repo.full_name == github.repository
 
         steps:
             - name: Dependabot-Metadaten holen
