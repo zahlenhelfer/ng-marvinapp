@@ -1,4 +1,4 @@
-# ng-marvinapp
+# ng-marvinapp (the paranoid android)
 
 A minimal Angular application that displays random quotes from Douglas Adams' *The Hitchhiker's Guide to the Galaxy* universe — featuring the beloved Marvin the Paranoid Android and friends.
 
