@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 
 const QUOTES: { text: string; source: string }[] = [
   {
@@ -67,6 +67,7 @@ const QUOTES: { text: string; source: string }[] = [
   selector: 'app-quote-card',
   imports: [],
   templateUrl: './quote-card.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './quote-card.css',
 })
 export class QuoteCard {

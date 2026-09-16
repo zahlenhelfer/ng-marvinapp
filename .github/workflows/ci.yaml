@@ -24,9 +24,9 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                # 20 ist Angular 21 LTS-Minimum, 22 ist aktuelles LTS.
+                # 22 ist Angular 22 Minimum (>=22.22.3), 24 ist aktuelles LTS.
                 # Beide testen fängt Node-spezifische Bugs früh ab.
-                node: [20, 22]
+                node: [22, 24]
 
         steps:
             - name: Checkout
