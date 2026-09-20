@@ -41,7 +41,7 @@
     "@vitest/coverage-istanbul": "^4.1.4",
     "@vitest/coverage-v8": "^4.1.4",
     "jsdom": "^29.0.2",
-    "postcss": "^8.5.26",
+    "postcss": "^8.5.28",
     "tailwindcss": "^4.1.18",
     "typescript": "~6.0.3",
     "vitest": "^4.1.11"
